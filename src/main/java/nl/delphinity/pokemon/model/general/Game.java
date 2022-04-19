@@ -165,7 +165,7 @@ public class Game implements Serializable{
 	}
 
 	public static void clear() {
-		System.out.println("clearing stats from the file");
+		System.out.println("Trying to find a secret huh? \nto bad that this is the only secret\nexiting game....");
 		System.exit(0);
 	}
 	
@@ -261,17 +261,19 @@ public class Game implements Serializable{
 	// TODO: US-PKM-O-8
 	private static void startGymBattle() {
 		Battle trainerBattle = trainer.challengeTrainer(Game.trainer.getCurrentArea().getGymLeader());
-		if (trainerBattle != null && trainerBattle.getWinner().getOwner().equals(trainer)) {
-			if (trainerBattle.getEnemy().getOwner().getClass().equals(GymLeader.class)) {
-				Pokemon enemyPokemon = trainerBattle.getEnemy();
-				Trainer gymLeader = enemyPokemon.getOwner();
-				((GymLeader) gymLeader).setDefeated(true); // upcast want je gaat van een child naar een parent class
-				awardBadge(((GymLeader) gymLeader).getBadge().getName());
+		if(trainerBattle.getWinner() != null) {
+			if (trainerBattle != null && trainerBattle.getWinner().getOwner().equals(trainer)) {
+				if (trainerBattle.getEnemy().getOwner().getClass().equals(GymLeader.class)) {
+					Pokemon enemyPokemon = trainerBattle.getEnemy();
+					Trainer gymLeader = enemyPokemon.getOwner();
+					((GymLeader) gymLeader).setDefeated(true); // upcast want je gaat van een child naar een parent class
+					awardBadge(((GymLeader) gymLeader).getBadge().getName());
 
-				Area gymLeaderArea = gymLeader.getCurrentArea();
-				Area nextArea = gymLeaderArea.getNextArea();
-				if (nextArea != null) {
-					nextArea.setUnlocked(true);
+					Area gymLeaderArea = gymLeader.getCurrentArea();
+					Area nextArea = gymLeaderArea.getNextArea();
+					if (nextArea != null) {
+						nextArea.setUnlocked(true);
+					}
 				}
 			}
 		}
